@@ -47,6 +47,8 @@ device = torch.device("cuda" if USE_CUDA else "cpu")
 
 corpus_name = "suomi24"
 corpus = os.path.join("../data", corpus_name)
+source_txt_file = "10k_suomi24_morfs.txt"
+source_csv_file = "formatted_suomi24_morfs.txt"
 
 def printLines(file, n=10):
     with open(file, 'rb') as datafile:
@@ -56,7 +58,7 @@ def printLines(file, n=10):
             if n < 0:
                 break
 
-printLines(os.path.join(corpus, "10k_suomi24_morfs.txt"))
+printLines(os.path.join(corpus, source_txt_file))
 
 
 # Create formatted data file
@@ -81,7 +83,7 @@ def extractSentencePairs(conversations):
 
 
 # Define path to new file
-datafile = os.path.join(corpus, "formatted_10k_suomi24_morfs.txt")
+datafile = os.path.join(corpus, source_csv_file)
 
 delimiter = '\t'
 # Unescape the delimiter
