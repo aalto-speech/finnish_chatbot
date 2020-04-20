@@ -48,7 +48,7 @@ device = torch.device("cuda" if USE_CUDA else "cpu")
 corpus_name = "suomi24"
 corpus = os.path.join("../data", corpus_name)
 source_txt_file = "10k_suomi24_morfs.txt"
-source_csv_file = "formatted_suomi24_morfs.txt"
+source_csv_file = "formatted_suomi24_morfs.csv"
 
 def printLines(file, n=10):
     with open(file, 'rb') as datafile:
@@ -68,21 +68,30 @@ printLines(os.path.join(corpus, source_txt_file))
 
 
 # Extracts pairs of sentences from conversations
-def extractSentencePairs(conversations):
-    qa_pairs = []
-    for conversation in conversations:
-        # Iterate over all the lines of the conversation
-        for i in range(len(conversation["lines"]) - 1):  # We ignore the last line (no answer for it)
-            inputLine = conversation["lines"][i]["text"].strip()
-            targetLine = conversation["lines"][i+1]["text"].strip()
+def createSentencePairsCSV(inputfilename, outputfilename):
+    delimiter = '\t'
+    # Unescape the delimiter
+    delimiter = str(codecs.decode(delimiter, "unicode_escape"))
+    
+    qa_pair = []
+    inputLine = ""
+    targetLine = "hyvää uutta vuotta !"
+    
+    with open(inputfilename, 'r', encoding='utf-8') as txtfile,\
+        open(outputfilename, 'w', encoding='utf-8') as csvfile:
+        writer = csv.writer(csvfile, delimiter=delimiter, lineterminator='\n')
+        
+        for line in txtfile:
+            inputLine = targetLine
+            targetLine = line.strip()            
             # Filter wrong samples (if one of the lists is empty)
             if inputLine and targetLine:
-                qa_pairs.append([inputLine, targetLine])
-    return qa_pairs
-
+                qa_pair = [inputLine, targetLine]
+                writer.writerow(qa_pair)
 
 
 # Define path to new file
+inputfile = os.path.join(corpus, source_txt_file)
 datafile = os.path.join(corpus, source_csv_file)
 
 delimiter = '\t'
@@ -92,14 +101,10 @@ delimiter = str(codecs.decode(delimiter, "unicode_escape"))
 
 # Load lines and process conversations
 print("\nProcessing corpus...")
-#lines = loadLines(os.path.join(corpus, "movie_lines.txt"), MOVIE_LINES_FIELDS)
 
 # Write new csv file
 print("\nWriting newly formatted file...")
-#with open(datafile, 'w', encoding='utf-8') as outputfile:
-#    writer = csv.writer(outputfile, delimiter=delimiter, lineterminator='\n')
-#    for pair in extractSentencePairs(conversations):
-#        writer.writerow(pair)
+createSentencePairsCSV(inputfile, datafile)
 
 # Print a sample of lines
 print("\nSample lines from file:")
