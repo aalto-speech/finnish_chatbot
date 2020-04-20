@@ -496,7 +496,7 @@ def train(input_variable, lengths, target_variable, mask, max_target_len, encode
     decoder_hidden = encoder_hidden[:decoder.n_layers]
 
     # Determine if we are using teacher forcing this iteration
-    use_teacher_forcing = True if random.random() < teacher_forcing_ratio else False
+    use_teacher_forcing = True if random.random() <= teacher_forcing_ratio else False
 
     # Forward batch of sequences through decoder one time step at a time
     if use_teacher_forcing:
