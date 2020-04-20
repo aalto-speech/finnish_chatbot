@@ -174,7 +174,7 @@ class Voc:
 
 
 
-MAX_LENGTH = 10  # Maximum sentence length to consider
+MAX_LENGTH = 50  # Maximum sentence length to consider
 
 # Lowercase, trim, and remove non-letter characters
 def normalizeString(s):
@@ -228,7 +228,7 @@ for pair in pairs[:10]:
 
 
 
-MIN_COUNT = 3    # Minimum word count threshold for trimming
+MIN_COUNT = 2    # Minimum word count threshold for trimming
 
 def trimRareWords(voc, pairs, MIN_COUNT):
     # Trim words used under the MIN_COUNT from the voc
@@ -690,10 +690,10 @@ attn_model = 'dot'
 #attn_model = 'general'
 #attn_model = 'concat'
 hidden_size = 500
-encoder_n_layers = 2
-decoder_n_layers = 2
-dropout = 0.1
-batch_size = 64
+encoder_n_layers = 3
+decoder_n_layers = 3
+dropout = 0.3
+batch_size = 32
 
 # Set checkpoint to load from; set to None if starting from scratch
 loadFilename = None
@@ -740,7 +740,7 @@ print('Models built and ready to go!')
 
 # Configure training/optimization
 clip = 50.0
-teacher_forcing_ratio = 1.0
+teacher_forcing_ratio = 0.75
 learning_rate = 0.0001
 decoder_learning_ratio = 5.0
 n_iteration = 40
