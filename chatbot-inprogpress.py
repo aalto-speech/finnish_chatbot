@@ -218,7 +218,7 @@ def loadPrepareData(corpus, corpus_name, datafile, save_dir):
 
 
 # Load/Assemble voc and pairs
-save_dir = os.path.join("data", "save")
+save_dir = os.path.join("../models", "s2s_suomi24")
 voc, pairs = loadPrepareData(corpus, corpus_name, datafile, save_dir)
 # Print some pairs to validate
 print("\npairs:")
@@ -743,9 +743,9 @@ clip = 50.0
 teacher_forcing_ratio = 0.75
 learning_rate = 0.0001
 decoder_learning_ratio = 5.0
-n_iteration = 40
+n_iteration = 400
 print_every = 10
-save_every = 500
+save_every = 100
 
 # Ensure dropout layers are in train mode
 encoder.train()
