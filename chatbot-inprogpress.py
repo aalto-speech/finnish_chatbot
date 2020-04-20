@@ -48,10 +48,10 @@ device = torch.device("cuda" if USE_CUDA else "cpu")
 corpus_name = "suomi24"
 corpus = os.path.join("../data", corpus_name)
 source_txt_file = "10k_suomi24_morfs.txt"
-source_csv_file = "formatted_suomi24_morfs.csv"
+source_csv_file = "formatted_10k_suomi24_morfs.csv"
 
-def printLines(file, n=10):
-    with open(file, 'rb') as datafile:
+def printLines(filelines, n=10):
+    with open(filelines, 'r', encoding='utf-8') as datafile:
         for line in datafile:
             print(line)
             n -= 1
