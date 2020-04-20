@@ -47,8 +47,8 @@ device = torch.device("cuda" if USE_CUDA else "cpu")
 
 corpus_name = "suomi24"
 corpus = os.path.join("../data", corpus_name)
-source_txt_file = "10k_suomi24_morfs.txt"
-source_csv_file = "formatted_10k_suomi24_morfs.csv"
+source_txt_file = "suomi24_morfs_2001+2.txt"
+source_csv_file = "formatted_suomi24_morfs_2001+2.csv"
 
 def printLines(filelines, n=10):
     with open(filelines, 'r', encoding='utf-8') as datafile:
@@ -743,9 +743,9 @@ clip = 50.0
 teacher_forcing_ratio = 0.75
 learning_rate = 0.0001
 decoder_learning_ratio = 5.0
-n_iteration = 400
-print_every = 10
-save_every = 100
+n_iteration = 800000
+print_every = 100
+save_every = 50000
 
 # Ensure dropout layers are in train mode
 encoder.train()
