@@ -50,9 +50,11 @@ corpus = os.path.join("../data", corpus_name)
 
 def printLines(file, n=10):
     with open(file, 'rb') as datafile:
-        lines = datafile.readlines()
-    for line in lines[:n]:
-        print(line)
+        for line in datafile:
+            print(line)
+            n -= 1
+            if n < 0:
+                break
 
 printLines(os.path.join(corpus, "10k_suomi24_morfs.txt"))
 
