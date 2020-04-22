@@ -38,6 +38,8 @@ import math
 from encoderDecoder_prep_data import *
 from encoderDecoder_voc import Voc
 from encoderDecoder_global_variables import *
+from encoderDecoder_models import *
+from encoderDecoder_training import *
 
 with open(__file__) as f:
     print(f.read())

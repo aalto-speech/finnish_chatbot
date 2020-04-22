@@ -15,10 +15,19 @@ module load anaconda3
 source activate /scratch/work/jpleino1/conda/envs/nmt_chatbot
 #conda activate nmt_chatbot
 script=$1
+echo "encoderDecoder_global_variables.py"
 cat encoderDecoder_global_variables.py
+
+echo "encoderDecoder_prep_data.py"
 cat encoderDecoder_prep_data.py
+
+echo "encoderDecoder_voc.py"
 cat encoderDecoder_voc.py
+
+echo "encoderDecoder_training.py"
 cat encoderDecoder_training.py
+
+echo "encoderDecoder_models.py"
 cat encoderDecoder_models.py
 
 python $script
