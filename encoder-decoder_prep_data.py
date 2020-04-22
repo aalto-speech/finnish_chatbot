@@ -18,6 +18,9 @@ from io import open
 import itertools
 import math
 
+from encoder-decoder_voc import Voc
+
+
 def printLines(filelines, n=10):
     with open(filelines, 'r', encoding='utf-8') as datafile:
         for line in datafile:
