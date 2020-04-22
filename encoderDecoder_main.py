@@ -57,8 +57,8 @@ torch.manual_seed(SEED)
 # Corpus & Data variables 
 corpus_name = "suomi24"
 corpus = os.path.join("../data", corpus_name)
-source_txt_file = "10k_suomi24_morfs.txt"
-source_csv_file = "formatted_10k_suomi24_v4.csv"
+source_txt_file = "suomi24_morfs_2001+2.txt"
+source_csv_file = "2001+2.csv"
 
 
 # Define path to new file
@@ -70,7 +70,7 @@ delimiter = str(codecs.decode(delimiter, "unicode_escape"))
 
 
 # Load/Assemble voc and pairs
-save_dir = os.path.join("../models", "10k_s2s_suomi24")
+save_dir = os.path.join("../models", "enc-dec_suomi24_2001+2")
 
 
 small_batch_size = 5
@@ -80,10 +80,10 @@ model_name = 'cb_model'
 attn_model = 'dot'
 #attn_model = 'general'
 #attn_model = 'concat'
-hidden_size = 500
+hidden_size = 600
 encoder_n_layers = 3
 decoder_n_layers = 3
-dropout = 0.3
+dropout = 0.4
 batch_size = 32
 
 # Set checkpoint to load from; set to None if starting from scratch
@@ -95,12 +95,12 @@ checkpoint_iter = 4000
 
 # Configure training/optimization
 clip = 50.0
-teacher_forcing_ratio = 0.75
+teacher_forcing_ratio = 0.5
 learning_rate = 0.0001
 decoder_learning_ratio = 5.0
-n_iteration = 4000
+n_iteration = 800000
 print_every = 100
-save_every = 4000
+save_every = 40000
 
 
 
