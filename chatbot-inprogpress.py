@@ -49,7 +49,7 @@ device = torch.device("cuda" if USE_CUDA else "cpu")
 corpus_name = "suomi24"
 corpus = os.path.join("../data", corpus_name)
 source_txt_file = "10k_suomi24_morfs.txt"
-source_csv_file = "formatted_10k_suomi24_v2.csv"
+source_csv_file = "formatted_10k_suomi24_v3.csv"
 
 
 # Define path to new file
