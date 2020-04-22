@@ -45,6 +45,10 @@ with open(__file__) as f:
 USE_CUDA = torch.cuda.is_available()
 device = torch.device("cuda" if USE_CUDA else "cpu")
 
+SEED = 1337
+random.seed(SEED)
+torch.manual_seed(SEED)
+
 # Corpus & Data variables 
 corpus_name = "suomi24"
 corpus = os.path.join("../data", corpus_name)
