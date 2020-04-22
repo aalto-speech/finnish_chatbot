@@ -100,8 +100,11 @@ n_iteration = 8000
 print_every = 100
 save_every = 4000
 
-# Load & Preprocess Data
-# ----------------------
+############################################
+########## ALL FUNCTIONS ###################
+############################################
+
+
 
 def printLines(filelines, n=10):
     with open(filelines, 'r', encoding='utf-8') as datafile:
@@ -110,14 +113,6 @@ def printLines(filelines, n=10):
             n -= 1
             if n < 0:
                 break
-
-printLines(os.path.join(corpus, source_txt_file))
-
-
-# Create formatted data file
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
 
 
 # Extracts pairs of sentences from conversations
@@ -143,23 +138,6 @@ def createSentencePairsCSV(inputfilename, outputfilename):
                 writer.writerow(qa_pair)
 
 
-
-
-# Load lines and process conversations
-print("\nProcessing corpus...")
-
-# Write new csv file
-print("\nWriting newly formatted file...")
-createSentencePairsCSV(inputfile, datafile)
-
-# Print a sample of lines
-print("\nSample lines from file:")
-printLines(datafile)
-
-
-# Load and trim data
-# ~~~~~~~~~~~~~~~~~~
-# 
 
 class Voc:
     def __init__(self, name):
@@ -209,9 +187,6 @@ class Voc:
             self.addWord(word)
 
 
-
-
-
 # Lowercase, trim, and remove non-letter characters
 def normalizeString(s):
     s = s.lower().strip()
@@ -253,16 +228,6 @@ def loadPrepareData(corpus, corpus_name, datafile, save_dir):
     return voc, pairs
 
 
-# Print some pairs to validate
-voc, pairs = loadPrepareData(corpus, corpus_name, datafile, save_dir)
-print("\npairs:")
-for pair in pairs[:10]:
-    print(pair)
-
-
-
-
-
 def trimRareWords(voc, pairs, MIN_COUNT):
     # Trim words used under the MIN_COUNT from the voc
     voc.trim(MIN_COUNT)
@@ -292,14 +257,6 @@ def trimRareWords(voc, pairs, MIN_COUNT):
     return keep_pairs
 
 
-# Trim voc and pairs
-pairs = trimRareWords(voc, pairs, MIN_COUNT)
-
-
-# Prepare Data for Models
-# -----------------------
-
-
 def indexesFromSentence(voc, sentence):
     return [voc.word2index[word] for word in sentence.split(' ')] + [EOS_token]
 
@@ -326,6 +283,7 @@ def inputVar(l, voc):
     padVar = torch.LongTensor(padList)
     return padVar, lengths
 
+
 # Returns padded target sequence tensor, padding mask, and max target length
 def outputVar(l, voc):
     indexes_batch = [indexesFromSentence(voc, sentence) for sentence in l]
@@ -335,6 +293,7 @@ def outputVar(l, voc):
     mask = torch.BoolTensor(mask)
     padVar = torch.LongTensor(padList)
     return padVar, mask, max_target_len
+
 
 # Returns all items for a given batch of pairs
 def batch2TrainData(voc, pair_batch):
@@ -346,17 +305,6 @@ def batch2TrainData(voc, pair_batch):
     inp, lengths = inputVar(input_batch, voc)
     output, mask, max_target_len = outputVar(output_batch, voc)
     return inp, lengths, output, mask, max_target_len
-
-
-# Example for validation
-batches = batch2TrainData(voc, [random.choice(pairs) for _ in range(small_batch_size)])
-input_variable, lengths, target_variable, mask, max_target_len = batches
-
-print("input_variable:", input_variable)
-print("lengths:", lengths)
-print("target_variable:", target_variable)
-print("mask:", mask)
-print("max_target_len:", max_target_len)
 
 
 # Define Models
@@ -715,9 +663,51 @@ def evaluateInput(encoder, decoder, searcher, voc):
 # Run Model
 # ---------
 # 
+###############################################
+######### RUNNING THE SCRIPT ##################
+###############################################
+# Create formatted data file
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~
+printLines(os.path.join(corpus, source_txt_file))
+
+# Load & Preprocess Data
+# ----------------------
+# Load lines and process conversations
+print("\nProcessing corpus...")
+
+# Write new csv file
+print("\nWriting newly formatted file...")
+createSentencePairsCSV(inputfile, datafile)
+
+# Print a sample of lines
+print("\nSample lines from file:")
+printLines(datafile)
 
 
+# Print some pairs to validate
+voc, pairs = loadPrepareData(corpus, corpus_name, datafile, save_dir)
+print("\npairs:")
+for pair in pairs[:10]:
+    print(pair)
+# Load and trim data
+# ~~~~~~~~~~~~~~~~~~
+# 
 
+# Trim voc and pairs
+pairs = trimRareWords(voc, pairs, MIN_COUNT)
+
+
+# Example for validation
+batches = batch2TrainData(voc, [random.choice(pairs) for _ in range(small_batch_size)])
+input_variable, lengths, target_variable, mask, max_target_len = batches
+
+print("input_variable:", input_variable)
+print("lengths:", lengths)
+print("target_variable:", target_variable)
+print("mask:", mask)
+print("max_target_len:", max_target_len)
+# Prepare Data for Models
+# -----------------------
 # Load model if a loadFilename is provided
 if loadFilename:
     # If loading on same machine the model was trained on
