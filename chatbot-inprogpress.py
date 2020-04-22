@@ -37,6 +37,7 @@ import math
 
 from encoderDecoder_prep_data import *
 from dencoderDecoder_voc import Voc
+from encoderDecoder_global_variables import *
 
 with open(__file__) as f:
     print(f.read())
@@ -48,7 +49,6 @@ with open(__file__) as f:
 USE_CUDA = torch.cuda.is_available()
 device = torch.device("cuda" if USE_CUDA else "cpu")
 
-SEED = 1337
 random.seed(SEED)
 torch.manual_seed(SEED)
 
@@ -66,17 +66,10 @@ delimiter = '\t'
 # Unescape the delimiter
 delimiter = str(codecs.decode(delimiter, "unicode_escape"))
 
-# Default word tokens
-PAD_token = 0  # Used for padding short sentences
-SOS_token = 1  # Start-of-sentence token
-EOS_token = 2  # End-of-sentence token
-
-MAX_LENGTH = 50  # Maximum sentence length to consider
 
 # Load/Assemble voc and pairs
 save_dir = os.path.join("../models", "10k_s2s_suomi24")
 
-MIN_COUNT = 2    # Minimum word count threshold for trimming
 
 small_batch_size = 5
 
@@ -103,25 +96,9 @@ clip = 50.0
 teacher_forcing_ratio = 0.75
 learning_rate = 0.0001
 decoder_learning_ratio = 5.0
-n_iteration = 8000
+n_iteration = 4000
 print_every = 100
 save_every = 4000
-
-############################################
-########## ALL FUNCTIONS ###################
-############################################
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 # Define Models

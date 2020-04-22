@@ -19,6 +19,8 @@ import itertools
 import math
 
 from encoderDecoder_voc import Voc
+from encoderDecoder_global_variables import *
+
 
 
 def printLines(filelines, n=10):
