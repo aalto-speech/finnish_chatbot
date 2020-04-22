@@ -1,3 +1,5 @@
+with open(__file__) as f:
+    print(f.read())
 
 # coding: utf-8
 
@@ -36,19 +38,71 @@ from io import open
 import itertools
 import math
 
+################################################
+######## ALL VARIABLES HERE ####################
+################################################
 
 USE_CUDA = torch.cuda.is_available()
 device = torch.device("cuda" if USE_CUDA else "cpu")
 
+# Corpus & Data variables 
+corpus_name = "suomi24"
+corpus = os.path.join("../data", corpus_name)
+source_txt_file = "10k_suomi24_morfs.txt"
+source_csv_file = "formatted_10k_suomi24_v2.csv"
+
+
+# Define path to new file
+inputfile = os.path.join(corpus, source_txt_file)
+datafile = os.path.join(corpus, source_csv_file)
+delimiter = '\t'
+# Unescape the delimiter
+delimiter = str(codecs.decode(delimiter, "unicode_escape"))
+
+# Default word tokens
+PAD_token = 0  # Used for padding short sentences
+SOS_token = 1  # Start-of-sentence token
+EOS_token = 2  # End-of-sentence token
+
+MAX_LENGTH = 50  # Maximum sentence length to consider
+
+# Load/Assemble voc and pairs
+save_dir = os.path.join("../models", "10k_s2s_suomi24")
+voc, pairs = loadPrepareData(corpus, corpus_name, datafile, save_dir)
+
+MIN_COUNT = 2    # Minimum word count threshold for trimming
+
+small_batch_size = 5
+
+# Configure models
+model_name = 'cb_model'
+attn_model = 'dot'
+#attn_model = 'general'
+#attn_model = 'concat'
+hidden_size = 500
+encoder_n_layers = 3
+decoder_n_layers = 3
+dropout = 0.3
+batch_size = 32
+
+# Set checkpoint to load from; set to None if starting from scratch
+loadFilename = None
+checkpoint_iter = 4000
+#loadFilename = os.path.join(save_dir, model_name, corpus_name,
+#                            '{}-{}_{}'.format(encoder_n_layers, decoder_n_layers, hidden_size),
+#                            '{}_checkpoint.tar'.format(checkpoint_iter))
+
+# Configure training/optimization
+clip = 50.0
+teacher_forcing_ratio = 0.75
+learning_rate = 0.0001
+decoder_learning_ratio = 5.0
+n_iteration = 8000
+print_every = 100
+save_every = 4000
 
 # Load & Preprocess Data
 # ----------------------
-
-
-corpus_name = "suomi24"
-corpus = os.path.join("../data", corpus_name)
-source_txt_file = "suomi24_morfs_2001+2.txt"
-source_csv_file = "formatted_suomi24_morfs_2001+2.csv"
 
 def printLines(filelines, n=10):
     with open(filelines, 'r', encoding='utf-8') as datafile:
@@ -90,13 +144,6 @@ def createSentencePairsCSV(inputfilename, outputfilename):
                 writer.writerow(qa_pair)
 
 
-# Define path to new file
-inputfile = os.path.join(corpus, source_txt_file)
-datafile = os.path.join(corpus, source_csv_file)
-
-delimiter = '\t'
-# Unescape the delimiter
-delimiter = str(codecs.decode(delimiter, "unicode_escape"))
 
 
 # Load lines and process conversations
@@ -114,15 +161,6 @@ printLines(datafile)
 # Load and trim data
 # ~~~~~~~~~~~~~~~~~~
 # 
-# 
-
-# In[ ]:
-
-
-# Default word tokens
-PAD_token = 0  # Used for padding short sentences
-SOS_token = 1  # Start-of-sentence token
-EOS_token = 2  # End-of-sentence token
 
 class Voc:
     def __init__(self, name):
@@ -174,7 +212,6 @@ class Voc:
 
 
 
-MAX_LENGTH = 50  # Maximum sentence length to consider
 
 # Lowercase, trim, and remove non-letter characters
 def normalizeString(s):
@@ -217,9 +254,6 @@ def loadPrepareData(corpus, corpus_name, datafile, save_dir):
     return voc, pairs
 
 
-# Load/Assemble voc and pairs
-save_dir = os.path.join("../models", "s2s_suomi24")
-voc, pairs = loadPrepareData(corpus, corpus_name, datafile, save_dir)
 # Print some pairs to validate
 print("\npairs:")
 for pair in pairs[:10]:
@@ -228,7 +262,6 @@ for pair in pairs[:10]:
 
 
 
-MIN_COUNT = 2    # Minimum word count threshold for trimming
 
 def trimRareWords(voc, pairs, MIN_COUNT):
     # Trim words used under the MIN_COUNT from the voc
@@ -316,7 +349,6 @@ def batch2TrainData(voc, pair_batch):
 
 
 # Example for validation
-small_batch_size = 5
 batches = batch2TrainData(voc, [random.choice(pairs) for _ in range(small_batch_size)])
 input_variable, lengths, target_variable, mask, max_target_len = batches
 
@@ -684,23 +716,6 @@ def evaluateInput(encoder, decoder, searcher, voc):
 # ---------
 # 
 
-# Configure models
-model_name = 'cb_model'
-attn_model = 'dot'
-#attn_model = 'general'
-#attn_model = 'concat'
-hidden_size = 500
-encoder_n_layers = 3
-decoder_n_layers = 3
-dropout = 0.3
-batch_size = 32
-
-# Set checkpoint to load from; set to None if starting from scratch
-loadFilename = None
-checkpoint_iter = 4000
-#loadFilename = os.path.join(save_dir, model_name, corpus_name,
-#                            '{}-{}_{}'.format(encoder_n_layers, decoder_n_layers, hidden_size),
-#                            '{}_checkpoint.tar'.format(checkpoint_iter))
 
 
 # Load model if a loadFilename is provided
@@ -738,14 +753,6 @@ print('Models built and ready to go!')
 # ~~~~~~~~~~~~
 # 
 
-# Configure training/optimization
-clip = 50.0
-teacher_forcing_ratio = 0.75
-learning_rate = 0.0001
-decoder_learning_ratio = 5.0
-n_iteration = 800000
-print_every = 100
-save_every = 50000
 
 # Ensure dropout layers are in train mode
 encoder.train()
