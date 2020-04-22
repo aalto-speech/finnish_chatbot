@@ -35,8 +35,8 @@ from io import open
 import itertools
 import math
 
-from encoder-decoder_prep_data import *
-from dencoder-decoder_voc import Voc
+from encoderDecoder_prep_data import *
+from dencoderDecoder_voc import Voc
 
 with open(__file__) as f:
     print(f.read())
