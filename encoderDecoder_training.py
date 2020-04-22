@@ -42,7 +42,7 @@ def maskNLLLoss(inp, target, mask, device):
 # 
 
 
-def train(input_variable, lengths, target_variable, mask, max_target_len, encoder, decoder, embedding, encoder_optimizer, decoder_optimizer, batch_size, clip, device, max_length=MAX_LENGTH):
+def train(input_variable, lengths, target_variable, mask, max_target_len, encoder, decoder, embedding, encoder_optimizer, decoder_optimizer, teacher_forcing_ratio, batch_size, clip, device, max_length=MAX_LENGTH):
 
     # Zero gradients
     encoder_optimizer.zero_grad()
@@ -119,7 +119,7 @@ def train(input_variable, lengths, target_variable, mask, max_target_len, encode
 # 
 
 
-def trainIters(model_name, voc, pairs, encoder, decoder, encoder_optimizer, decoder_optimizer, embedding, encoder_n_layers, decoder_n_layers, save_dir, n_iteration, batch_size, print_every, save_every, clip, corpus_name, loadFilename, device):
+def trainIters(model_name, voc, pairs, encoder, decoder, encoder_optimizer, decoder_optimizer, embedding, encoder_n_layers, decoder_n_layers, teacher_forcing_ratio, save_dir, n_iteration, batch_size, print_every, save_every, clip, corpus_name, loadFilename, device):
 
     # Load batches for each iteration
     training_batches = [batch2TrainData(voc, [random.choice(pairs) for _ in range(batch_size)])
@@ -140,7 +140,7 @@ def trainIters(model_name, voc, pairs, encoder, decoder, encoder_optimizer, deco
         input_variable, lengths, target_variable, mask, max_target_len = training_batch
 
         # Run a training iteration with batch
-        loss = train(input_variable, lengths, target_variable, mask, max_target_len, encoder, decoder, embedding, encoder_optimizer, decoder_optimizer, batch_size, clip, device)
+        loss = train(input_variable, lengths, target_variable, mask, max_target_len, encoder, decoder, embedding, encoder_optimizer, decoder_optimizer, teacher_forcing_ratio, batch_size, clip, device)
         print_loss += loss
 
         # Print progress

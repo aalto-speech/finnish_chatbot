@@ -207,7 +207,7 @@ for state in decoder_optimizer.state.values():
 # Run training iterations
 print("Starting Training!")
 trainIters(model_name, voc, pairs, encoder, decoder, encoder_optimizer, decoder_optimizer,
-           embedding, encoder_n_layers, decoder_n_layers, save_dir, n_iteration, batch_size,
+           embedding, encoder_n_layers, decoder_n_layers, teacher_forcing_ratio, save_dir, n_iteration, batch_size,
            print_every, save_every, clip, corpus_name, loadFilename, device)
 
 
