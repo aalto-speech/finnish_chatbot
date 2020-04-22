@@ -1,6 +1,3 @@
-with open(__file__) as f:
-    print(f.read())
-
 # coding: utf-8
 
 # In[ ]:
@@ -38,6 +35,9 @@ from io import open
 import itertools
 import math
 
+with open(__file__) as f:
+    print(f.read())
+
 ################################################
 ######## ALL VARIABLES HERE ####################
 ################################################
@@ -68,7 +68,6 @@ MAX_LENGTH = 50  # Maximum sentence length to consider
 
 # Load/Assemble voc and pairs
 save_dir = os.path.join("../models", "10k_s2s_suomi24")
-voc, pairs = loadPrepareData(corpus, corpus_name, datafile, save_dir)
 
 MIN_COUNT = 2    # Minimum word count threshold for trimming
 
@@ -255,6 +254,7 @@ def loadPrepareData(corpus, corpus_name, datafile, save_dir):
 
 
 # Print some pairs to validate
+voc, pairs = loadPrepareData(corpus, corpus_name, datafile, save_dir)
 print("\npairs:")
 for pair in pairs[:10]:
     print(pair)
