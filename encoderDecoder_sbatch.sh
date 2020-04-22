@@ -18,5 +18,7 @@ script=$1
 cat encoderDecoder_global_variables.py
 cat encoderDecoder_prep_data.py
 cat encoderDecoder_voc.py
+cat encoderDecoder_training.py
+cat encoderDecoder_models.py
 
 python $script
