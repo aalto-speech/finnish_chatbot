@@ -76,13 +76,13 @@ save_dir = os.path.join("../models", "enc-dec_suomi24_2001+2")
 small_batch_size = 5
 
 # Configure models
-model_name = 'cb_model'
+model_name = 'encoderDecoder'
 attn_model = 'dot'
 #attn_model = 'general'
 #attn_model = 'concat'
-hidden_size = 600
-encoder_n_layers = 3
-decoder_n_layers = 3
+hidden_size = 800
+encoder_n_layers = 4
+decoder_n_layers = 4
 dropout = 0.4
 batch_size = 32
 
