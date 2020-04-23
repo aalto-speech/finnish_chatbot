@@ -98,7 +98,7 @@ clip = 50.0
 teacher_forcing_ratio = 0.5
 learning_rate = 0.0001
 decoder_learning_ratio = 5.0
-n_iteration = 800000
+n_iteration = 1600000
 print_every = 100
 save_every = 40000
 
