@@ -34,6 +34,7 @@ import codecs
 from io import open
 import itertools
 import math
+import argparse
 
 from encoderDecoder_prep_data import *
 from encoderDecoder_voc import Voc
@@ -41,12 +42,16 @@ from encoderDecoder_global_variables import *
 from encoderDecoder_models import *
 from encoderDecoder_training import *
 
-with open(__file__) as f:
-    print(f.read())
 
 ################################################
 ######## ALL VARIABLES HERE ####################
 ################################################
+
+parser = argparse.ArgumentParser(description='Encoder-Decoder main that ties other modules together')
+parser.add_argument('job_name', type=str,
+                    help='job id from slurm')
+
+args = parser.parse_args()
 
 USE_CUDA = torch.cuda.is_available()
 device = torch.device("cuda" if USE_CUDA else "cpu")
@@ -57,8 +62,8 @@ torch.manual_seed(SEED)
 # Corpus & Data variables 
 corpus_name = "suomi24"
 corpus = os.path.join("../data", corpus_name)
-source_txt_file = "suomi24_morfs_2001+2.txt"
-source_csv_file = "2001+2.csv"
+source_txt_file = "10k_suomi24_morfs.txt"
+source_csv_file = "10k_suomi24_morfs_v6.csv"
 
 
 # Define path to new file
@@ -70,7 +75,7 @@ delimiter = str(codecs.decode(delimiter, "unicode_escape"))
 
 
 # Load/Assemble voc and pairs
-save_dir = os.path.join("../models", "enc-dec_suomi24_2001+2")
+save_dir = os.path.join("../models", "enc-dec_suomi24_2001+2", args.job_name)
 
 
 small_batch_size = 5
@@ -98,9 +103,9 @@ clip = 50.0
 teacher_forcing_ratio = 0.5
 learning_rate = 0.0001
 decoder_learning_ratio = 5.0
-n_iteration = 1600000
-print_every = 100
-save_every = 40000
+n_iteration = 1600
+print_every = 10
+save_every = 400
 
 
 
