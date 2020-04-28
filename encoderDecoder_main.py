@@ -60,10 +60,10 @@ random.seed(SEED)
 torch.manual_seed(SEED)
 
 # Corpus & Data variables 
-corpus_name = "suomi24"
+corpus_name = "opensubs"
 corpus = os.path.join("../data", corpus_name)
-source_txt_file = "10k_suomi24_morfs.txt"
-source_csv_file = "10k_suomi24_morfs_v6.csv"
+source_txt_file = "stigs_opensubs.trg"
+source_csv_file = "stigs_opensubs_v2.csv"
 
 
 # Define path to new file
@@ -75,7 +75,7 @@ delimiter = str(codecs.decode(delimiter, "unicode_escape"))
 
 
 # Load/Assemble voc and pairs
-save_dir = os.path.join("../models", "enc-dec_suomi24_2001+2", args.job_name)
+save_dir = os.path.join("../models", "enc-dec_opensubs", args.job_name)
 
 
 small_batch_size = 5
@@ -101,11 +101,11 @@ checkpoint_iter = 4000
 # Configure training/optimization
 clip = 50.0
 teacher_forcing_ratio = 0.5
-learning_rate = 0.0001
+learning_rate = 0.00001
 decoder_learning_ratio = 5.0
-n_iteration = 1600
-print_every = 10
-save_every = 400
+n_iteration = 1600000
+print_every = 100
+save_every = 400000
 
 
 
