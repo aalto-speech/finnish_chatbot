@@ -27,7 +27,7 @@ criterion = nn.NLLLoss(ignore_index=0)
 
 
 def train(input_variable, lengths, target_variable, mask, max_target_len, transformer, embedding,
-          optimizer, batch_size, clip, max_length=MAX_LENGTH):
+          optimizer, batch_size, clip, device, max_length=MAX_LENGTH):
 
     # Zero gradients
     optimizer.zero_grad()
@@ -65,7 +65,7 @@ def train(input_variable, lengths, target_variable, mask, max_target_len, transf
 # In[18]:
 
 
-def trainIters(model_name, voc, pairs, transformer, optimizer, embedding, nlayers, save_dir, n_iteration, batch_size, print_every, save_every, clip, corpus_name, loadFilename):
+def trainIters(model_name, voc, pairs, transformer, optimizer, embedding, nlayers, save_dir, n_iteration, batch_size, print_every, save_every, clip, corpus_name, loadFilename, device):
 
     # Load batches for each iteration
     training_batches = [batch2TrainData(voc, [random.choice(pairs) for _ in range(batch_size)])
@@ -87,7 +87,7 @@ def trainIters(model_name, voc, pairs, transformer, optimizer, embedding, nlayer
 
         # Run a training iteration with batch
         loss = train(input_variable, lengths, target_variable, mask, max_target_len, transformer,
-                     embedding, optimizer, batch_size, clip)
+                     embedding, optimizer, batch_size, clip, device)
         print_loss += loss
 
         # Print progress

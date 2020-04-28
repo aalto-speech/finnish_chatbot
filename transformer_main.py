@@ -194,7 +194,7 @@ for state in optimizer.state.values():
 print("Starting Training!")
 trainIters(model_name, voc, pairs, transformer, optimizer,
            embedding, nlayers, save_dir, n_iteration, batch_size,
-           print_every, save_every, clip, corpus_name, loadFilename)
+           print_every, save_every, clip, corpus_name, loadFilename, device)
 
 
 
