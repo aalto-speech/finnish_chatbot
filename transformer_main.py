@@ -92,9 +92,9 @@ dropout = 0.3 # the dropout value
 clip = 0.5
 learning_rate = 0.01
 decoder_learning_ratio = 5.0
-n_iteration =1600000 
-print_every = 4000
-save_every = 50000
+n_iteration =1600 
+print_every = 4
+save_every = 400
 
 
 
