@@ -98,7 +98,7 @@ def trainIters(model_name, voc, pairs, transformer, optimizer, embedding, nlayer
 
         # Save checkpoint
         if (iteration % save_every == 0):
-            directory = os.path.join(save_dir, model_name, corpus_name, '{}_{}'.format(nlayers, nhid))
+            directory = save_dir
             if not os.path.exists(directory):
                 os.makedirs(directory)
             torch.save({

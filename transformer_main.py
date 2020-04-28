@@ -37,7 +37,7 @@ import codecs
 from io import open
 import itertools
 import math
-
+import argparse
 
 from transformer_prep_data import *
 from transformer_voc import Voc
