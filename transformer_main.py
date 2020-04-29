@@ -44,7 +44,7 @@ from transformer_voc import Voc
 from transformer_global_variables import *
 from transformer_models import *
 from transformer_training import *
-
+from transformer_hyperparameters import *
 
 ################################################
 ######## ALL VARIABLES HERE ####################
@@ -62,41 +62,14 @@ device = torch.device("cuda" if USE_CUDA else "cpu")
 random.seed(SEED)
 torch.manual_seed(SEED)
 
-# Corpus & Data variables
-corpus_name = "suomi24"
-corpus = os.path.join("../data", corpus_name)
-source_txt_file = "10k_suomi24_morfs.txt"
-output_csv_file = "form_10k_v7.csv"
 
 # Define path to new file
 inputfile = os.path.join(corpus, source_txt_file)
 datafile = os.path.join(corpus, output_csv_file)
 
-
-save_dir = os.path.join("../models", "transformer_suomi24", args.job_name)
+save_dir = os.path.join("../models", parent_folder_name, args.job_name)
 
 small_batch_size = 5
-
-
-# Configure models
-model_name = 'transformer_model'
-batch_size = 32
-
-emsize = 200 # embedding dimension
-nhid = 200 # the dimension of the feedforward network model in nn.TransformerEncoder
-nlayers = 2 # the number of nn.TransformerEncoderLayer in nn.TransformerEncoder
-nhead = 2 # the number of heads in the multiheadattention models
-dropout = 0.2 # the dropout value
-
-# Configure training/optimization
-clip = 0.5
-learning_rate = 0.001
-decoder_learning_ratio = 5.0
-n_iteration =32000 
-print_every = 4
-save_every = 4000
-
-
 
 #############################################
 ############ RUNNING THE SCRIPT #############

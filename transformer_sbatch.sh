@@ -21,6 +21,10 @@ git log | head -n 6
 echo "transformer_main.py"
 cat transformer_main.py
 
+echo "transformer_hyperparameters.py"
+cat transformer_hyperparameters.py
+cat transformer_hyperparameters.py > "$SLURM_JOBID"_transformer_hyperparameters.py
+
 echo "transformer_global_variables.py"
 cat transformer_global_variables.py
 
@@ -35,5 +39,8 @@ cat transformer_training.py
 
 echo "transformer_models.py"
 cat transformer_models.py
+
+echo "transformer_sbatch.sh"
+cat transformer_sbatch.sh
 
 python $script $SLURM_JOBID

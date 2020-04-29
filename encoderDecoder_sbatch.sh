@@ -40,7 +40,7 @@ cat encoderDecoder_training.py
 echo "encoderDecoder_models.py"
 cat encoderDecoder_models.py
 
-echo "encoderDecoder_sbatch.py"
-cat encoderDecoder_sbatch.py
+echo "encoderDecoder_sbatch.sh"
+cat encoderDecoder_sbatch.sh
 
 python $script $SLURM_JOBID
