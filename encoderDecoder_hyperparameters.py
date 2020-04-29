@@ -2,7 +2,7 @@ import os
 
 
 # Corpus & Data variables 
-corpus_name = "opensubs"
+corpus_name = "suomi24"
 corpus = os.path.join("../data", corpus_name)
 source_txt_file = "10k_suomi24_morfs.txt"
 source_csv_file = "delethis_v1.csv"
