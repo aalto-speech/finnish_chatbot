@@ -82,19 +82,19 @@ small_batch_size = 5
 model_name = 'transformer_model'
 batch_size = 32
 
-emsize = 300 # embedding dimension
-nhid = 300 # the dimension of the feedforward network model in nn.TransformerEncoder
-nlayers = 6 # the number of nn.TransformerEncoderLayer in nn.TransformerEncoder
-nhead = 6 # the number of heads in the multiheadattention models
-dropout = 0.3 # the dropout value
+emsize = 200 # embedding dimension
+nhid = 200 # the dimension of the feedforward network model in nn.TransformerEncoder
+nlayers = 2 # the number of nn.TransformerEncoderLayer in nn.TransformerEncoder
+nhead = 2 # the number of heads in the multiheadattention models
+dropout = 0.2 # the dropout value
 
 # Configure training/optimization
 clip = 0.5
-learning_rate = 0.01
+learning_rate = 0.001
 decoder_learning_ratio = 5.0
-n_iteration =1600 
+n_iteration =32000 
 print_every = 4
-save_every = 400
+save_every = 4000
 
 
 
