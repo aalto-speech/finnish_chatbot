@@ -21,6 +21,10 @@ git log | head -n 6
 echo "encoderDecoder_main.py"
 cat encoderDecoder_main.py
 
+echo "encoderDecoder_hyperparameters.py"
+cat encoderDecoder_hyperparameters.py
+cat encoderDecoder_hyperparameters.py > "$SLURM_JOBID"_encoderDecoder_hyperparameters.py
+
 echo "encoderDecoder_global_variables.py"
 cat encoderDecoder_global_variables.py
 
@@ -35,5 +39,8 @@ cat encoderDecoder_training.py
 
 echo "encoderDecoder_models.py"
 cat encoderDecoder_models.py
+
+echo "encoderDecoder_sbatch.py"
+cat encoderDecoder_sbatch.py
 
 python $script $SLURM_JOBID

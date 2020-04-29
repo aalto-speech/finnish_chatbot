@@ -1,19 +1,9 @@
 # coding: utf-8
-
-# In[ ]:
-
-
-
-
 # 
 # Chatbot Tutorial
 # ================
 # **Author:** `Matthew Inkawhich <https://github.com/MatthewInkawhich>`_
 # 
-
-# Preparations
-# ------------
-
 
 from __future__ import absolute_import
 from __future__ import division
@@ -41,7 +31,7 @@ from encoderDecoder_voc import Voc
 from encoderDecoder_global_variables import *
 from encoderDecoder_models import *
 from encoderDecoder_training import *
-
+from encoderDecoder_hyperparameters import *
 
 ################################################
 ######## ALL VARIABLES HERE ####################
@@ -59,37 +49,11 @@ device = torch.device("cuda" if USE_CUDA else "cpu")
 random.seed(SEED)
 torch.manual_seed(SEED)
 
-# Corpus & Data variables 
-corpus_name = "opensubs"
-corpus = os.path.join("../data", corpus_name)
-source_txt_file = "stigs_opensubs.trg"
-source_csv_file = "stigs_opensubs_v2.csv"
-
-
 # Define path to new file
 inputfile = os.path.join(corpus, source_txt_file)
 datafile = os.path.join(corpus, source_csv_file)
-delimiter = '\t'
-# Unescape the delimiter
-delimiter = str(codecs.decode(delimiter, "unicode_escape"))
-
-
-# Load/Assemble voc and pairs
-save_dir = os.path.join("../models", "enc-dec_opensubs", args.job_name)
-
 
 small_batch_size = 5
-
-# Configure models
-model_name = 'encoderDecoder'
-attn_model = 'dot'
-#attn_model = 'general'
-#attn_model = 'concat'
-hidden_size = 800
-encoder_n_layers = 4
-decoder_n_layers = 4
-dropout = 0.4
-batch_size = 32
 
 # Set checkpoint to load from; set to None if starting from scratch
 loadFilename = None
@@ -97,18 +61,6 @@ checkpoint_iter = 4000
 #loadFilename = os.path.join(save_dir, model_name, corpus_name,
 #                            '{}-{}_{}'.format(encoder_n_layers, decoder_n_layers, hidden_size),
 #                            '{}_checkpoint.tar'.format(checkpoint_iter))
-
-# Configure training/optimization
-clip = 50.0
-teacher_forcing_ratio = 0.5
-learning_rate = 0.00001
-decoder_learning_ratio = 5.0
-n_iteration = 1600000
-print_every = 100
-save_every = 400000
-
-
-
 
 ###############################################
 ######### RUNNING THE SCRIPT ##################
