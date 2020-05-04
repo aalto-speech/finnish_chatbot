@@ -43,4 +43,10 @@ cat encoderDecoder_models.py
 echo "encoderDecoder_sbatch.sh"
 cat encoderDecoder_sbatch.sh
 
+echo "encoderDecoder_evaluation.py"
+cat encoderDecoder_evaluation.py
+
+echo "encoderDecoder_evaluate_script.py"
+cat encoderDecoder_evaluate_script.py
+
 python $script $SLURM_JOBID

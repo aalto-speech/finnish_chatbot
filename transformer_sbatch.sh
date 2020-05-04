@@ -43,4 +43,10 @@ cat transformer_models.py
 echo "transformer_sbatch.sh"
 cat transformer_sbatch.sh
 
+echo "transformer_evaluation.py"
+cat transformer_evaluation.py
+
+echo "transformer_evaluate_script.py"
+cat transformer_evaluate_script.py
+
 python $script $SLURM_JOBID
