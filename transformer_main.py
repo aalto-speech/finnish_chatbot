@@ -65,7 +65,7 @@ torch.manual_seed(SEED)
 
 # Define path to new file
 inputfile = os.path.join(corpus, source_txt_file)
-datafile = os.path.join(corpus, output_csv_file)
+datafile = os.path.join(corpus, source_csv_file)
 
 save_dir = os.path.join("../models", parent_folder_name, args.job_name)
 

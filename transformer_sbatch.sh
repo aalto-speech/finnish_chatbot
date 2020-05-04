@@ -1,7 +1,7 @@
 #!/bin/bash -l
 
 #SBATCH --partition dgx-spa,dgx-common
-#SBATCH --time=0:30:00
+#SBATCH --time=60:30:00
 #SBATCH --mem=32G
 #SBATCH --gres=gpu:1
 #SBATCH -o /scratch/work/jpleino1/log/s2s_chatbot-%j.log
