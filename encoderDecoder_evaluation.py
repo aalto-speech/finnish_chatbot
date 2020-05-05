@@ -260,9 +260,16 @@ def calculate_evaluation_metrics(eval_file_name, voc, encoder, decoder, embeddin
     token_to_character_modifier = np_true_answer_losses[:,2] / np_true_answer_losses[:,1]
     char_perplexity = np.mean(np.exp(np_true_answer_losses[:,0]) * token_to_character_modifier)
 
-    bleu = corpus_bleu(corpus_references, corpus_hypothesis)
+    bleu_morf = corpus_bleu(corpus_references, corpus_hypothesis)
+    chrf_morf = corpus_chrf(corpus_references, corpus_hypothesis)
+    
+    corpus_references_word = [morf_list_to_word_list(sentence) for sentence in corpus_references]
+    corpus_hypothesis_word = [morf_list_to_word_list(sentence) for sentence in corpus_hypothesis]
 
-    return fraction_of_correct_firsts, franction_of_N_choose_k, perplexity, char_perplexity, bleu
+    bleu_word = corpus_bleu(corpus_references_word, corpus_hypothesis_word)
+    chrf_word = corpus_chrf(corpus_references_word, corpus_hypothesis_word)
+
+    return fraction_of_correct_firsts, franction_of_N_choose_k, perplexity, char_perplexity, bleu_word, bleu_morf, chrf_word, chrf_morf
 
 
 def create_N_choose_k_file(source_txt_file_name, output_csv_file_name, N):
