@@ -179,6 +179,13 @@ def morfenize_fi(text, morfessorModel, spacy_fi):
     return " ".join(sentenceAsMorfs)
 
 
+def morf_list_to_word_list(sentence):
+    word_sentence = " ".join(sentence)
+    word_sentence = word_sentence.replace("+ +","").replace(" +", "").replace("+ ", "")
+    word_sentence = word_sentence.split()
+    return word_sentence
+
+
 def calculate_evaluation_metrics(eval_file_name, voc, encoder, decoder, embedding, N, k, delimiter, device, morfessor=None):
 
     spacy_fi = Finnish()
@@ -266,6 +273,7 @@ def calculate_evaluation_metrics(eval_file_name, voc, encoder, decoder, embeddin
     
     corpus_references_word = [morf_list_to_word_list(sentence) for sentence in corpus_references]
     corpus_hypothesis_word = [morf_list_to_word_list(sentence) for sentence in corpus_hypothesis]
+    print(corpus_hypothesis_word)
 
     bleu_word = corpus_bleu(corpus_references_word, corpus_hypothesis_word)
     chrf_word = corpus_chrf(corpus_references_word, corpus_hypothesis_word)

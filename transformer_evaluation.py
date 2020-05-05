@@ -119,6 +119,7 @@ def morf_list_to_word_list(sentence):
     word_sentence = word_sentence.split()
     return word_sentence
 
+
 def calculate_evaluation_metrics(eval_file_name, voc, transformer, embedding, N, k, delimiter, device, morfessor=None):
     criterion = nn.NLLLoss(ignore_index=0)
     spacy_fi = Finnish()
@@ -206,6 +207,7 @@ def calculate_evaluation_metrics(eval_file_name, voc, transformer, embedding, N,
     
     corpus_references_word = [morf_list_to_word_list(sentence) for sentence in corpus_references]
     corpus_hypothesis_word = [morf_list_to_word_list(sentence) for sentence in corpus_hypothesis]
+    print(corpus_hypothesis_word)
 
     bleu_word = corpus_bleu(corpus_references_word, corpus_hypothesis_word)
     chrf_word = corpus_chrf(corpus_references_word, corpus_hypothesis_word)
