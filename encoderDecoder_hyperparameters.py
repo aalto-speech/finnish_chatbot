@@ -2,10 +2,10 @@ import os
 
 
 # Corpus & Data variables 
-corpus_name = "opensubs"
+corpus_name = "suomi24"
 corpus = os.path.join("../data", corpus_name)
-source_txt_file = "1M_stigs_opensubs.trg"
-source_csv_file = "1M_stigs_opensubs.csv"
+source_txt_file = "1M_processed_suomi24_2001.txt"
+source_csv_file = "1M_processed_suomi24_2001.csv"
 
 parent_folder_name = "enc-dec_suomi24"
 
@@ -22,7 +22,7 @@ batch_size = 16
 
 # Configure training/optimization
 clip = 50.0
-teacher_forcing_ratio = 0.8
+teacher_forcing_ratio = 0.9
 learning_rate = 0.00001
 decoder_learning_ratio = 5.0
 n_iteration = 3200000
