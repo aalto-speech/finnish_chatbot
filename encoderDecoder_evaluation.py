@@ -151,7 +151,7 @@ def calculate_loss(input_variable, lengths, target_variable, mask, max_target_le
 
 def prepare_sentence(s, voc):
     s_norm = normalizeString(s)
-    s_morfs = s_norm.split(' ')
+    s_morfs = s_norm.split()
     return_morfs = []
     for morf in s_morfs:
         if morf not in voc.word2index:
@@ -237,7 +237,7 @@ def calculate_evaluation_metrics(eval_file_name, voc, encoder, decoder, embeddin
                 hypothesis = hypothesis[:first_EOS_index]
                 corpus_hypothesis.append(hypothesis)
 
-                answer_in_tokens = answer.split(' ')
+                answer_in_tokens = answer.split()
                 corpus_references.append(answer_in_tokens)
 
             evaluation_batch = [batch2TrainData(voc, [[prepared_question, prepared_answer]])]

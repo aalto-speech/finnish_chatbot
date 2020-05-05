@@ -40,7 +40,7 @@ from transformer_prep_data import *
 # ~~~~~~~~~~~~~~~~
 #
 def generate(transformer, voc, prepared_question, device, max_length=MAX_LENGTH):
-    prepared_question_tokens = prepared_question.split(' ')
+    prepared_question_tokens = prepared_question.split()
     input = torch.Tensor([[1]]).long().to(device) # SOS token
     for morph in prepared_question_tokens:
         word_idx = voc.word2index[morph]
@@ -85,7 +85,7 @@ def calculate_loss(input_variable, lengths, target_variable, mask, max_target_le
 
 def prepare_sentence(s, voc):
     s_norm = normalizeString(s)
-    s_morfs = s_norm.split(' ')
+    s_morfs = s_norm.split()
     return_morfs = []
     for morf in s_morfs:
         if morf not in voc.word2index:
@@ -152,7 +152,8 @@ def calculate_evaluation_metrics(eval_file_name, voc, transformer, embedding, N,
                 correct_answer_length_tokens = max(len(prepared_answer.split(' ')), 1)
 
                 # Had some problem with indexing so this is done twice for every row
-                evaluation_batch = [batch2TrainData(voc, [prepared_question + " EOT " + prepared_answer])]
+                sentence_to_test = prepared_question + " EOT " + prepared_answer
+                evaluation_batch = [batch2TrainData(voc, [sentence_to_test.strip()])]
                 input_variable, lengths, target_variable, mask, max_target_len = evaluation_batch[0]
 
                 loss = calculate_loss(input_variable, lengths, target_variable, mask, max_target_len, transformer,
@@ -169,10 +170,11 @@ def calculate_evaluation_metrics(eval_file_name, voc, transformer, embedding, N,
                 hypothesis = hypothesis[:first_EOS_index]
                 corpus_hypothesis.append(hypothesis)
 
-                answer_in_tokens = answer.split(' ')
+                answer_in_tokens = answer.split()
                 corpus_references.append(answer_in_tokens)
 
-            evaluation_batch = [batch2TrainData(voc, [prepared_question + " EOT " + prepared_answer])]
+            sentence_to_test = prepared_question + " EOT " + prepared_answer
+            evaluation_batch = [batch2TrainData(voc, [sentence_to_test.strip()])]
             input_variable, lengths, target_variable, mask, max_target_len = evaluation_batch[0]
 
             loss = calculate_loss(input_variable, lengths, target_variable, mask, max_target_len, transformer, voc,
