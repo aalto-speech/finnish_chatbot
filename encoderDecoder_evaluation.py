@@ -20,6 +20,7 @@ import math
 import numpy as np
 import pandas as pd
 from nltk.translate.bleu_score import corpus_bleu
+from nltk.translate.chrf_score import corpus_chrf
 
 from spacy.lang.fi import Finnish
 
