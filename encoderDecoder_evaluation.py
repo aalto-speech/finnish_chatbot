@@ -16,6 +16,7 @@ import unicodedata
 import codecs
 from io import open
 import itertools
+import operator
 import math
 import numpy as np
 import pandas as pd
@@ -191,11 +192,14 @@ def calculate_evaluation_metrics(eval_file_name, voc, encoder, decoder, embeddin
     spacy_fi = Finnish()
     searcher = GreedySearchDecoder(encoder, decoder)
 
+    most_common_word = max(voc.word2count.items(), key=operator.itemgetter(1))[0]
+
     true_first = 0
     true_top_k = 0
     corpus_hypothesis = []
     corpus_references = []
     true_answer_losses = []
+
 
     df = pd.read_csv(eval_file_name, sep=delimiter, engine='python')
     for index, row in df.iterrows():
@@ -211,6 +215,8 @@ def calculate_evaluation_metrics(eval_file_name, voc, encoder, decoder, embeddin
 
         losses = []
         prepared_question = prepare_sentence(question, voc)
+        if len(prepared_question) == 0:
+            prepared_question = most_common_word
 
         first_answer = True
         for answer in answers:
@@ -219,6 +225,8 @@ def calculate_evaluation_metrics(eval_file_name, voc, encoder, decoder, embeddin
                 answer = morfenize_fi(answer, morfessor, spacy_fi)
 
             prepared_answer = prepare_sentence(answer, voc)
+            if len(prepared_answer) == 0:
+                prepared_answer = most_common_word
 
             # Following gets the length for character normalized perplexity, and saves ref and hyp for BLEU
             if first_answer:
