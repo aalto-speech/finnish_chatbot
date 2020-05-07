@@ -2,12 +2,12 @@ import os
 
 
 # Corpus & Data variables
-corpus_name = "opensubs"
+corpus_name = "suomi24"
 corpus = os.path.join("../data", corpus_name)
-source_txt_file = "1M_stigs_opensubs.trg"
-source_csv_file = "1M_stigs_opensubs.csv"
+source_txt_file = "1M_processed_suomi24_2001.txt"
+source_csv_file = "1M_processed_suomi24_2001.csv"
 
-parent_folder_name = "transformer_opensubs"
+parent_folder_name = "transformer_suomi24"
 
 # Configure models
 model_name = 'transformer_model'
