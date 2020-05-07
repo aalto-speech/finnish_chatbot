@@ -147,8 +147,8 @@ decoder.train()
 
 # Initialize optimizers
 print('Building optimizers ...')
-encoder_optimizer = optim.Adam(encoder.parameters(), lr=learning_rate)
-decoder_optimizer = optim.Adam(decoder.parameters(), lr=learning_rate * decoder_learning_ratio)
+encoder_optimizer = optim.SGD(encoder.parameters(), lr=learning_rate, momentum=0.9)
+decoder_optimizer = optim.SGD(decoder.parameters(), lr=learning_rate * decoder_learning_ratio, momentum=0.9)
 if loadFilename:
     encoder_optimizer.load_state_dict(encoder_optimizer_sd)
     decoder_optimizer.load_state_dict(decoder_optimizer_sd)
