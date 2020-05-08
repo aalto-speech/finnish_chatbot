@@ -271,10 +271,10 @@ def calculate_evaluation_metrics(eval_file_name, voc, encoder, decoder, embeddin
     franction_of_N_choose_k = true_top_k / len(df)
 
     np_true_answer_losses = np.asarray(true_answer_losses)
-    perplexity = np.mean(np.exp(np_true_answer_losses[:,0]))
+    perplexity = np.exp(np.mean(np_true_answer_losses[:,0]))
 
     token_to_character_modifier = np_true_answer_losses[:,2] / np_true_answer_losses[:,1]
-    char_perplexity = np.mean(np.exp(np_true_answer_losses[:,0]) * token_to_character_modifier)
+    char_perplexity = np.exp(np.mean(np_true_answer_losses[:,0] * token_to_character_modifier))
 
     bleu_morf = corpus_bleu(corpus_references, corpus_hypothesis)
     chrf_morf = corpus_chrf(corpus_references, corpus_hypothesis)
