@@ -153,7 +153,7 @@ transformer.train()
 
 # Initialize optimizers
 print('Building optimizers ...')
-optimizer = optim.SGD(transformer.parameters(), lr=learning_rate, momentum=0.9)
+optimizer = optim.Adam(transformer.parameters(), lr=learning_rate)
 if loadFilename:
     optimizer.load_state_dict(optimizer_sd)
 
