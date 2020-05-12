@@ -305,6 +305,8 @@ def create_N_choose_k_file(source_txt_file_name, output_csv_file_name, N):
             answers = []
             question = eval_lines[i].strip()
             true_answer = eval_lines[i + 1].strip()
+            if not (len(question) > 10 and len(true_answer) > 10):
+                continue
             answers.append(true_answer)
 
             for _ in range(N - 1):

@@ -25,6 +25,8 @@ parser.add_argument('how_many', type=int,
 args = parser.parse_args()
 
 random.seed(SEED)
+min_length_characters = 10
+N = 10
 
 # Extracts pairs of sentences from conversations
 def createSentencePairsList(inputfilename):
@@ -36,12 +38,12 @@ def createSentencePairsList(inputfilename):
             inputLine = targetLine
             targetLine = line.strip()            
             # Filter wrong samples (if one of the lists is empty)
-            if inputLine and targetLine:
+            if len(inputLine) > min_length_characters and len(targetLine) > min_length_characters:
                 qa_pairs.append([inputLine, targetLine])
     return qa_pairs
 
 
-def create_N_choose_k_file(qa_pairs, output_csv_file_name, N):
+def create_N_choose_k_file_from_list(qa_pairs, output_csv_file_name, N):
     # TODO should I only pick long enough sentences?
     with open(output_csv_file_name, 'w', encoding='utf-8') as output_file:
         lines_count = len(qa_pairs)
@@ -53,14 +55,21 @@ def create_N_choose_k_file(qa_pairs, output_csv_file_name, N):
             bad_indices.append(i)
             bad_indices.append(i + 1)
             answers = []
-            question = eval_lines[i].strip()
-            true_answer = eval_lines[i + 1].strip()
+            question = qa_pairs[i][0].strip()
+            true_answer = qa_pairs[i + 1][1].strip()
             answers.append(true_answer)
 
             for _ in range(N - 1):
-                fake_answer = random.choice([x for x in range(lines_count) if x not in bad_indices])
-                answers.append(eval_lines[fake_answer].strip())
-                bad_indices.append(fake_answer)
+                fake_answer = ""
+                while fake_answer == "":
+                    fake_answer_index = random.choice([x for x in range(lines_count) if x not in bad_indices])
+                    fake_answer = qa_pairs[fake_answer_index][1].strip()
+                    # I don't think it can be true_answer, but can be question
+                    if fake_answer == question or fake_answer == true_answer:
+                        fake_answer = ""
+
+                answers.append(fake_answer)
+                bad_indices.append(fake_answer_index)
 
             line_to_write = '¤'.join([question, '|'.join(answers)]) + '\n'
             output_file.write(line_to_write)
@@ -69,4 +78,4 @@ def create_N_choose_k_file(qa_pairs, output_csv_file_name, N):
 qa_pairs = createSentencePairsList(args.source_file_name)
 random.shuffle(qa_pairs)
 
-writeSentencePairsTXT(qa_pairs[:args.how_many], args.target_file_name)
+create_N_choose_k_file_from_list(qa_pairs[:args.how_many], args.target_file_name, N)
