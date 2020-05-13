@@ -111,6 +111,6 @@ elif "txt" in evaluation_file_extension:
     create_N_choose_k_file(args.evaluation_file, "temp_transformer_evalution.csv", 10)
     metrics = calculate_evaluation_metrics("temp_transformer_evalution.csv", voc, transformer, embedding, 10, 5, "¤", device)
 
-print('The results are r@k: {0}, N-choose-k: {1}, ppl: {2}, char ppl: {3}, BLEU word: {4}, BLEU morf: {5}, chrF word: {6}, chrF morf: {7}'.format(metrics[0], metrics[1], metrics[2], metrics[3], metrics[4], metrics[5], metrics[6], metrics[7]))
+print('The results are r@k: {0}, N-choose-k: {1}, cross-entropy: {2}, char cross-entropy: {3}, BLEU word: {4}, BLEU morf: {5}, chrF word: {6}, chrF morf: {7}'.format(metrics[0], metrics[1], metrics[2], metrics[3], metrics[4], metrics[5], metrics[6], metrics[7]))
 #os.remove("temp_hyperparameters.py")
 #os.remove("temp_evaluation.csv")

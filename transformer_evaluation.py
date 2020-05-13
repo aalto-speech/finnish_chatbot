@@ -162,6 +162,15 @@ def calculate_evaluation_metrics(eval_file_name, voc, transformer, embedding, N,
                 correct_answer_length_char = max(len(prepared_answer), 1)
                 correct_answer_length_tokens = max(len(prepared_answer.split(' ')), 1)
 
+                # Calculate loss of question so it can be subtracted
+                question_to_calculate = prepared_question + " EOT"
+                evaluation_batch = [batch2TrainData(voc, [question_to_calculate.strip()])]
+                input_variable, lengths, target_variable, mask, max_target_len = evaluation_batch[0]
+
+                question_loss = calculate_loss(input_variable, lengths, target_variable, mask, max_target_len, transformer,
+                                      voc, criterion, embedding, device, 1)
+                normalized_question_loss = question_loss * len(question_to_calculate.strip().split(' '))
+
                 # Had some problem with indexing so this is done twice for every row
                 sentence_to_test = prepared_question + " EOT " + prepared_answer
                 evaluation_batch = [batch2TrainData(voc, [sentence_to_test.strip()])]
@@ -169,7 +178,9 @@ def calculate_evaluation_metrics(eval_file_name, voc, transformer, embedding, N,
 
                 loss = calculate_loss(input_variable, lengths, target_variable, mask, max_target_len, transformer,
                                       voc, criterion, embedding, device, 1)
-                true_answer_losses.append([loss, correct_answer_length_char, correct_answer_length_tokens])
+                normalized_loss = loss * len(sentence_to_test.strip().split(' '))
+                answer_loss = (normalized_loss - normalized_question_loss) / correct_answer_length_tokens
+                true_answer_losses.append([answer_loss, correct_answer_length_char, correct_answer_length_tokens])
                 first_answer = False
 
                 # Next is for BLEU
@@ -187,13 +198,17 @@ def calculate_evaluation_metrics(eval_file_name, voc, transformer, embedding, N,
                 answer_in_tokens = answer.split()
                 corpus_references.append(answer_in_tokens)
 
+
             sentence_to_test = prepared_question + " EOT " + prepared_answer
             evaluation_batch = [batch2TrainData(voc, [sentence_to_test.strip()])]
             input_variable, lengths, target_variable, mask, max_target_len = evaluation_batch[0]
 
             loss = calculate_loss(input_variable, lengths, target_variable, mask, max_target_len, transformer, voc,
                                   criterion, embedding, device, 1)
-            losses.append(loss)
+            normalized_loss = loss * len(sentence_to_test.strip().split(' '))
+            answer_length_tokens = max(len(prepared_answer.split(' ')), 1)
+            answer_loss = (normalized_loss - normalized_question_loss) / answer_length_tokens
+            losses.append(answer_loss)
         if np.argmin(np.asarray(losses)) == 0:
             true_first += 1
         if 0 in np.asarray(losses).argsort()[:k]:
@@ -203,10 +218,12 @@ def calculate_evaluation_metrics(eval_file_name, voc, transformer, embedding, N,
     franction_of_N_choose_k = true_top_k / len(true_answer_losses)
 
     np_true_answer_losses = np.asarray(true_answer_losses)
-    perplexity = np.exp(np.mean(np_true_answer_losses[:,0]))
+    #perplexity = np.exp(np.mean(np_true_answer_losses[:,0]))
+    cross_entropy = np.mean(np_true_answer_losses[:,0])
 
     token_to_character_modifier = np_true_answer_losses[:,2] / np_true_answer_losses[:,1]
-    char_perplexity = np.exp(np.mean(np_true_answer_losses[:,0] * token_to_character_modifier))
+    #char_perplexity = np.exp(np.mean(np_true_answer_losses[:,0] * token_to_character_modifier))
+    char_cross_entropy = np.mean(np_true_answer_losses[:,0] * token_to_character_modifier)
 
     bleu_morf = corpus_bleu(corpus_references, corpus_hypothesis)
     chrf_morf = corpus_chrf(corpus_references, corpus_hypothesis)
@@ -221,7 +238,7 @@ def calculate_evaluation_metrics(eval_file_name, voc, transformer, embedding, N,
     bleu_word = corpus_bleu(corpus_references_word, corpus_hypothesis_word)
     chrf_word = corpus_chrf(corpus_references_word, corpus_hypothesis_word)
 
-    return fraction_of_correct_firsts, franction_of_N_choose_k, perplexity, char_perplexity, bleu_word, bleu_morf, chrf_word, chrf_morf
+    return fraction_of_correct_firsts, franction_of_N_choose_k, cross_entropy, char_cross_entropy, bleu_word, bleu_morf, chrf_word, chrf_morf
 
 
 def create_N_choose_k_file(source_txt_file_name, output_csv_file_name, N):
