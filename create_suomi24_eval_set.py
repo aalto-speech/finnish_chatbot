@@ -77,4 +77,4 @@ def create_N_choose_k_file_from_list(qa_pairs, output_csv_file_name, N):
 qa_pairs = createSentencePairsList(args.source_file_name)
 random.shuffle(qa_pairs)
 
-create_N_choose_k_file_from_list(qa_pairs[:args.how_many], args.target_file_name, N)
+create_N_choose_k_file_from_list(qa_pairs[:args.how_many + 1], args.target_file_name, N)
