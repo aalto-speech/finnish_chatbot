@@ -277,10 +277,12 @@ def calculate_evaluation_metrics(eval_file_name, voc, encoder, decoder, embeddin
     franction_of_N_choose_k = true_top_k / len(true_answer_losses)
 
     np_true_answer_losses = np.asarray(true_answer_losses)
-    perplexity = np.exp(np.mean(np_true_answer_losses[:,0]))
+    #perplexity = np.exp(np.mean(np_true_answer_losses[:,0]))
+    cross_entropy = np.mean(np_true_answer_losses[:,0])
 
     token_to_character_modifier = np_true_answer_losses[:,2] / np_true_answer_losses[:,1]
-    char_perplexity = np.exp(np.mean(np_true_answer_losses[:,0] * token_to_character_modifier))
+    #char_perplexity = np.exp(np.mean(np_true_answer_losses[:,0] * token_to_character_modifier))
+    char_cross_entropy = np.mean(np_true_answer_losses[:,0] * token_to_character_modifier)
 
     bleu_morf = corpus_bleu(corpus_references, corpus_hypothesis)
     chrf_morf = corpus_chrf(corpus_references, corpus_hypothesis)
@@ -295,7 +297,7 @@ def calculate_evaluation_metrics(eval_file_name, voc, encoder, decoder, embeddin
     bleu_word = corpus_bleu(corpus_references_word, corpus_hypothesis_word)
     chrf_word = corpus_chrf(corpus_references_word, corpus_hypothesis_word)
 
-    return fraction_of_correct_firsts, franction_of_N_choose_k, perplexity, char_perplexity, bleu_word, bleu_morf, chrf_word, chrf_morf
+    return fraction_of_correct_firsts, franction_of_N_choose_k, cross_entropy, char_cross_entropy, bleu_word, bleu_morf, chrf_word, chrf_morf
 
 
 def create_N_choose_k_file(source_txt_file_name, output_csv_file_name, N):
