@@ -53,6 +53,10 @@ torch.manual_seed(SEED)
 morfessorIO = morfessor.MorfessorIO()
 morfessorModel = morfessorIO.read_binary_model_file(args.morfessor_model)
 
+ignore_list = [279, 269, 235, 23, 221, 233, 255, 129, 247, 231, 7, 177, 119, 123, 163, 239, 5, 263, 9, 125, 219, 291, 237, 15, 215, 11, 115, 159, 3, 259, 169, 36, 256, 80, 48, 234, 0, 278, 206, 210, 220, 86, 218, 102, 296, 230, 170, 270, 18, 124, 214, 106, 280, 56, 298, 138, 122, 38, 216, 146, 252, 272, 74, 58, 82, 70, 162, 254, 268, 118, 204, 208, 44, 120]
+
+print_for_eval_list = [4, 25, 72, 100, 133, 141, 229, 264, 266, 290]
+
 # Set checkpoint to load from; set to None if starting from scratch
 copyfile(args.hyperparameters_file, "temp_hyperparameters.py")
 
@@ -98,8 +102,12 @@ decoder.eval()
 # Initialize search module
 evaluation_file_extension = os.path.splitext(args.evaluation_file)[1]
 if "csv" in evaluation_file_extension:
-    metrics = calculate_evaluation_metrics(args.evaluation_file, voc, encoder, decoder, embedding, 10, 5, "¤",
-                                            device, morfessorModel)
+    if "eval_topX_recall" in args.evaluation_file: 
+        metrics = calculate_evaluation_metrics(args.evaluation_file, voc, encoder, decoder, embedding, 10, 5, "¤",
+                device, ignore_list, print_for_eval_list, morfessorModel)
+    else:
+        metrics = calculate_evaluation_metrics(args.evaluation_file, voc, encoder, decoder, embedding, 10, 5, "¤",
+                device)
 
 elif "txt" in evaluation_file_extension:
     create_N_choose_k_file(args.evaluation_file, "temp_enc2dec_evalution.csv", 10)

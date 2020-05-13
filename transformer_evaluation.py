@@ -120,7 +120,7 @@ def morf_list_to_word_list(sentence):
     return word_sentence
 
 
-def calculate_evaluation_metrics(eval_file_name, voc, transformer, embedding, N, k, delimiter, device, morfessor=None):
+def calculate_evaluation_metrics(eval_file_name, voc, transformer, embedding, N, k, delimiter, device, skip_indices=[], print_indices=[], morfessor=None):
     criterion = nn.NLLLoss(ignore_index=0)
     spacy_fi = Finnish()
 
@@ -129,9 +129,12 @@ def calculate_evaluation_metrics(eval_file_name, voc, transformer, embedding, N,
     corpus_hypothesis = []
     corpus_references = []
     true_answer_losses = []
+    hypotheses_for_humans = []
 
     df = pd.read_csv(eval_file_name, sep=delimiter, engine='python')
     for index, row in df.iterrows():
+        if index in skip_indices:
+            continue
 
         question = row['TEXT'].strip()  # TODO what if question or answer is zero, make sure it is not in create file?
         if morfessor:
@@ -177,6 +180,9 @@ def calculate_evaluation_metrics(eval_file_name, voc, transformer, embedding, N,
                     first_EOS_index = MAX_LENGTH  # Generated hypothesis has 50 tokens, none is EOS, so is added as 51th.
                 hypothesis = hypothesis[:first_EOS_index]
                 corpus_hypothesis.append(hypothesis)
+                if index in print_indices:
+                    hypothesis_string = " ".join(morf_list_to_word_list(hypothesis))
+                    hypotheses_for_humans.append([str(index), row['TEXT'].strip(), hypothesis_string])
 
                 answer_in_tokens = answer.split()
                 corpus_references.append(answer_in_tokens)
@@ -193,8 +199,8 @@ def calculate_evaluation_metrics(eval_file_name, voc, transformer, embedding, N,
         if 0 in np.asarray(losses).argsort()[:k]:
             true_top_k += 1
 
-    fraction_of_correct_firsts = true_first / len(df)
-    franction_of_N_choose_k = true_top_k / len(df)
+    fraction_of_correct_firsts = true_first / len(true_answer_losses)
+    franction_of_N_choose_k = true_top_k / len(true_answer_losses)
 
     np_true_answer_losses = np.asarray(true_answer_losses)
     perplexity = np.exp(np.mean(np_true_answer_losses[:,0]))
@@ -208,6 +214,9 @@ def calculate_evaluation_metrics(eval_file_name, voc, transformer, embedding, N,
     corpus_references_word = [morf_list_to_word_list(sentence) for sentence in corpus_references]
     corpus_hypothesis_word = [morf_list_to_word_list(sentence) for sentence in corpus_hypothesis]
     print(corpus_hypothesis_word)
+    print("FOR HUMANS")
+    for answer_for_human in hypotheses_for_humans:
+        print(" --- ".join(answer_for_human))
 
     bleu_word = corpus_bleu(corpus_references_word, corpus_hypothesis_word)
     chrf_word = corpus_chrf(corpus_references_word, corpus_hypothesis_word)

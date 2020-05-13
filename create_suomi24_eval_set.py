@@ -53,10 +53,9 @@ def create_N_choose_k_file_from_list(qa_pairs, output_csv_file_name, N):
         for i in range(lines_count - 1):
             bad_indices = []
             bad_indices.append(i)
-            bad_indices.append(i + 1)
             answers = []
             question = qa_pairs[i][0].strip()
-            true_answer = qa_pairs[i + 1][1].strip()
+            true_answer = qa_pairs[i][1].strip()
             answers.append(true_answer)
 
             for _ in range(N - 1):

@@ -1,0 +1,38 @@
+sbatch evaluation_sbatch.sh encoderDecoder_evaluate_script.py hyperparameters/52273944_encoderDecoder_hyperparameters.py ../data/eval_topX_recall_at_10_415.csv ../models/enc-dec_suomi24_2001/52273944/800000_checkpoint.tar ../models/model.bin 
+Submitted batch job 52593131
+sbatch evaluation_sbatch.sh encoderDecoder_evaluate_script.py hyp
+erparameters/52274668_encoderDecoder_hyperparameters.py ../data/eval_topX_recall_at_10_415
+.csv ../models/enc-dec_opensubs/52274668/1600000_checkpoint.tar ../models/model.bin       
+Submitted batch job 52593143
+sbatch evaluation_sbatch.sh encoderDecoder_evaluate_script.py hyperparameters/52358686_encoderDecoder_hyperparameters.py ../data/eval_topX_recall_at_10_415.csv ../models/enc-dec_suomi24/52358686/2400000_checkpoint.tar ../models/model.bin
+Submitted batch job 52593425
+sbatch evaluation_sbatch.sh encoderDecoder_evaluate_script.py hyperparameters/52359914_encoderDecoder_hyperparameters.py ../data/eval_topX_recall_at_10_415.csv ../models/enc-dec_suomi24/52359914/3200000_checkpoint.tar ../models/model.bin
+Submitted batch job 52593537
+sbatch evaluation_sbatch.sh encoderDecoder_evaluate_script.py hyperparameters/52421767_encoderDecoder_hyperparameters.py ../data/eval_topX_recall_at_10_415.csv ../models/enc-dec_opensubs/52421767/3200000_checkpoint.tar ../models/model.bin
+Submitted batch job 52593562
+sbatch evaluation_sbatch.sh encoderDecoder_evaluate_script.py hyperparameters/52421939_encoderDecoder_hyperparameters.py ../data/eval_topX_recall_at_10_415.csv ../models/enc-dec_suomi24/52421939/3200000_checkpoint.tar ../models/model.bin
+Submitted batch job 52593633
+sbatch evaluation_sbatch.sh encoderDecoder_evaluate_script.py hyperparameters/52432013_encoderDecoder_hyperparameters.py ../data/eval_topX_recall_at_10_415.csv ../models/enc-dec_suomi24/52432013/4000000_checkpoint.tar ../models/model.bin
+Submitted batch job 52593802
+sbatch evaluation_sbatch.sh encoderDecoder_evaluate_script.py hyperparameters/52433221_encoderDecoder_hyperparameters.py ../data/eval_topX_recall_at_10_415.csv ../models/enc-dec_opensubs/52433221/4800000_checkpoint.tar ../models/model.bin
+Submitted batch job 52593944
+sbatch evaluation_sbatch.sh transformer_evaluate_script.py hyperparameters/52280842_transformer_hyperparameters.py ../data/eval_topX_recall_at_10_415.csv ../models/transformer_opensubs/52280842/1600000_checkpoint.tar ../models/model.bin
+Submitted batch job 52593983
+sbatch evaluation_sbatch.sh transformer_evaluate_script.py hyperparameters/52345177_transformer_hyperparameters.py ../data/eval_topX_recall_at_10_415.csv ../models/transformer_opensubs/52345177/1600000_checkpoint.tar ../models/model.bin
+Submitted batch job 52593996
+sbatch evaluation_sbatch.sh transformer_evaluate_script.py hyperparameters/52359009_transformer_hyperparameters.py ../data/eval_topX_recall_at_10_415.csv ../models/transformer_opensubs/52359009/1600000_checkpoint.tar ../models/model.bin
+Submitted batch job 52594009
+sbatch evaluation_sbatch.sh transformer_evaluate_script.py hyperparameters/52359148_transformer_hyperparameters.py ../data/eval_topX_recall_at_10_415.csv ../models/transformer_suomi24/52359148/1600000_checkpoint.tar ../models/model.bin
+Submitted batch job 52594024
+sbatch evaluation_sbatch.sh transformer_evaluate_script.py hyperparameters/52359915_transformer_hyperparameters.py ../data/eval_topX_recall_at_10_415.csv ../models/transformer_suomi24/52359915/3200000_checkpoint.tar ../models/model.bin
+Submitted batch job 52594041
+sbatch evaluation_sbatch.sh transformer_evaluate_script.py hyperparameters/52359962_transformer_hyperparameters.py ../data/eval_topX_recall_at_10_415.csv ../models/transformer_suomi24/52359962/3200000_checkpoint.tar ../models/model.bin
+Submitted batch job 52594059
+sbatch evaluation_sbatch.sh transformer_evaluate_script.py hyperparameters/52422251_transformer_hyperparameters.py ../data/eval_topX_recall_at_10_415.csv ../models/transformer_suomi24/52422251/3200000_checkpoint.tar ../models/model.bin
+Submitted batch job 52594096
+sbatch evaluation_sbatch.sh transformer_evaluate_script.py hyperparameters/52422330_transformer_hyperparameters.py ../data/eval_topX_recall_at_10_415.csv ../models/transformer_opensubs/52422330/3200000_checkpoint.tar ../models/model.bin
+Submitted batch job 52594116
+sbatch evaluation_sbatch.sh transformer_evaluate_script.py hyperparameters/52414972_transformer_hyperparameters.py ../data/eval_topX_recall_at_10_415.csv ../models/transformer_suomi24/52414972/3200000_checkpoint.tar ../models/model.bin
+Submitted batch job 52594144
+sbatch evaluation_sbatch.sh transformer_evaluate_script.py hyperparameters/52414900_transformer_hyperparameters.py ../data/eval_topX_recall_at_10_415.csv ../models/transformer_suomi24/52414900/3200000_checkpoint.tar ../models/model.bin
+Submitted batch job 52594427
